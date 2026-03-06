@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Rabbit — Propuesta de Transformación Digital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ═══════════════════════════════════════════ */
+        /*  RESET & BASE                               */
+        /* ═══════════════════════════════════════════ */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --gold: #C9A84C;
+            --gold-light: #E8D48B;
+            --gold-dark: #A07D2E;
+            --black: #0A0A0A;
+            --black-light: #141414;
+            --black-card: #1A1A1A;
+            --white: #F5F5F0;
+            --gray: #888;
+            --gray-light: #B0B0B0;
+            --red: #FF3B3B;
+            --green: #00D26A;
+            --purple: #8B5CF6;
+            --blue: #3B82F6;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  CURSOR GLOW                                */
+        /* ═══════════════════════════════════════════ */
+        .cursor-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  NAVIGATION                                 */
+        /* ═══════════════════════════════════════════ */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,10,0.8);
+            border-bottom: 1px solid rgba(201,168,76,0.1);
+        }
+
+        .logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        .logo span { color: var(--white); }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a {
+            color: var(--gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+
+        /* ═══════════════════════════════════════════ */
+        /*  HERO                                       */
+        /* ═══════════════════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 40px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-badge .dot {
+            width: 6px; height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .hero h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero h1 .gold { color: var(--gold); }
+        .hero h1 .outline {
+            -webkit-text-stroke: 2px var(--white);
+            color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 50px;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 60px;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .stat { text-align: center; }
+        .stat-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 4px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s infinite;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  SECTIONS COMMON                            */
+        /* ═══════════════════════════════════════════ */
+        section {
+            padding: 120px 60px;
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .section-desc {
+            color: var(--gray);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 60px;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  PROBLEM SECTION                            */
+        /* ═══════════════════════════════════════════ */
+        .problem {
+            background: linear-gradient(180deg, var(--black) 0%, var(--black-light) 100%);
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .problem-card {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 36px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--red), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .problem-card:hover::before { opacity: 1; }
+        .problem-card:hover {
+            border-color: rgba(255,59,59,0.2);
+            transform: translateY(-4px);
+        }
+
+        .problem-icon {
+            width: 48px; height: 48px;
+            background: rgba(255,59,59,0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .problem-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .problem-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .problem-metric {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 4px 12px;
+            background: rgba(255,59,59,0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  SOLUTION SECTION                           */
+        /* ═══════════════════════════════════════════ */
+        .solution {
+            background: var(--black-light);
+        }
+
+        .solution-flow {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin-top: 60px;
+            position: relative;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 220px;
+            max-width: 280px;
+            background: var(--black-card);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .flow-step:hover {
+            border-color: var(--gold);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(201,168,76,0.1);
+        }
+
+        .flow-step-number {
+            font-family: 'Syne', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: rgba(201,168,76,0.15);
+            position: absolute;
+            top: 12px;
+            right: 20px;
+        }
+
+        .flow-step-icon {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+
+        .flow-step h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--gold-light);
+        }
+
+        .flow-step p {
+            font-size: 0.85rem;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--gold);
+            padding: 0 8px;
+            opacity: 0.4;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  MOCKUPS SECTION                            */
+        /* ═══════════════════════════════════════════ */
+        .mockups { background: var(--black); }
+
+        .mockup-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .mockup-tab {
+            padding: 10px 24px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            background: transparent;
+            color: var(--gray);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mockup-tab:hover, .mockup-tab.active {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(201,168,76,0.08);
+        }
+
+        .mockup-container {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--black-card);
+            min-height: 650px;
+        }
+
+        .mockup-browser-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .browser-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+        }
+        .browser-dot.red { background: #FF5F57; }
+        .browser-dot.yellow { background: #FEBC2E; }
+        .browser-dot.green { background: #28C840; }
+
+        .browser-url {
+            margin-left: 12px;
+            padding: 6px 16px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.75rem;
+            color: var(--gray);
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .mockup-screen {
+            padding: 0;
+            min-height: 600px;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: opacity 0.6s ease;
+            pointer-events: none;
+        }
+
+        .mockup-screen.active {
+            opacity: 1;
+            position: relative;
+            pointer-events: auto;
+        }
+
+        /* ── Landing Mockup ── */
+        .m-landing {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .m-landing-left {
+            padding: 60px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .m-landing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: rgba(201,168,76,0.1);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: var(--gold);
+            width: fit-content;
+            margin-bottom: 24px;
+            letter-spacing: 1px;
+        }
+
+        .m-landing-left h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+
+        .m-landing-left h2 .gold { color: var(--gold); }
+
+        .m-landing-left p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+        }
+
+        .m-landing-features {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .m-landing-feat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--gray-light);
+        }
+
+        .m-landing-feat .check {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        .m-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: fit-content;
+            transition: all 0.3s;
+        }
+
+        .m-cta-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(201,168,76,0.3);
+        }
+
+        .m-landing-right {
+            background: linear-gradient(135deg, rgba(201,168,76,0.05), rgba(201,168,76,0.02));
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .m-form {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(10,10,10,0.6);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 20px;
+            padding: 36px;
+            backdrop-filter: blur(20px);
+        }
+
+        .m-form h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        .m-form .sub {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        .m-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: var(--white);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .m-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+        }
+
+        .m-input::placeholder { color: var(--gray); }
+
+        .m-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+            appearance: none;
+        }
+
+        .m-row { display: flex; gap: 12px; }
+
+        .m-upload {
+            width: 100%;
+            padding: 20px;
+            border: 2px dashed rgba(201,168,76,0.3);
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .m-upload:hover {
+            border-color: var(--gold);
+            background: rgba(201,168,76,0.05);
+        }
+
+        .m-upload-icon { font-size: 1.5rem; margin-bottom: 4px; }
+        .m-upload p { font-size: 0.75rem; color: var(--gray); }
+
+        .m-submit {
+            width: 100%;
+            padding: 14px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .m-submit:hover {
+            background: var(--gold-light);
+        }
+
+        /* ── Dashboard Mockup ── */
+        .m-dashboard {
+            padding: 0;
+        }
+
+        .m-dash-sidebar {
+            width: 240px;
+            background: rgba(255,255,255,0.02);
+            border-right: 1px solid rgba(255,255,255,0.06);
+            padding: 24px 0;
+            position: absolute;
+            top: 46px;
+            left: 0;
+            bottom: 0;
+        }
+
+        .m-dash-logo {
+            padding: 0 24px 24px;
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--gold);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 16px;
+        }
+
+        .m-dash-menu { list-style: none; }
+        .m-dash-menu li {
+            padding: 10px 24px;
+            font-size: 0.85rem;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .m-dash-menu li:hover { color: var(--white); background: rgba(255,255,255,0.03); }
+        .m-dash-menu li.active {
+            color: var(--gold);
+            background: rgba(201,168,76,0.08);
+            border-right: 2px solid var(--gold);
+        }
+
+        .m-dash-content {
+            margin-left: 240px;
+            padding: 32px;
+            min-height: 600px;
+        }
+
+        .m-dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .m-dash-header h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.5rem;
+        }
+
+        .m-dash-header .date {
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        .m-dash-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .m-stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .m-stat-card .label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .m-stat-card .value {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .m-stat-card .change {
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+        .m-stat-card .change.up { color: var(--green); }
+        .m-stat-card .change.down { color: var(--red); }
+
+        .m-dash-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 20px;
+        }
+
+        .m-dash-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .m-dash-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .m-dash-card h3 .see-all {
+            font-size: 0.75rem;
+            color: var(--gold);
+            cursor: pointer;
+        }
+
+        .m-appointment {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .m-appointment:last-child { border-bottom: none; }
+
+        .m-appt-time {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gold);
+            min-width: 50px;
+        }
+
+        .m-appt-info { flex: 1; }
+        .m-appt-info .name { font-size: 0.9rem; font-weight: 500; }
+        .m-appt-info .desc { font-size: 0.78rem; color: var(--gray); }
+
+        .m-appt-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .m-appt-status.confirmed { background: rgba(0,210,106,0.15); color: var(--green); }
+        .m-appt-status.pending { background: rgba(201,168,76,0.15); color: var(--gold); }
+
+        .m-lead-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .m-lead-item:last-child { border-bottom: none; }
+
+        .m-lead-avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .m-lead-info { flex: 1; }
+        .m-lead-info .name { font-size: 0.85rem; font-weight: 500; }
+        .m-lead-info .channel { font-size: 0.72rem; color: var(--gray); }
+
+        .m-lead-time { font-size: 0.72rem; color: var(--gray); }
+
+        /* ── WhatsApp Mockup ── */
+        .m-whatsapp {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            min-height: 600px;
+            background: linear-gradient(135deg, rgba(37,211,102,0.03), transparent);
+        }
+
+        .m-phone {
+            width: 340px;
+            background: var(--black);
+            border-radius: 36px;
+            border: 3px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+        }
+
+        .m-phone-notch {
+            width: 120px;
+            height: 28px;
+            background: var(--black);
+            border-radius: 0 0 16px 16px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .m-wa-header {
+            background: #075E54;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .m-wa-avatar {
+            width: 36px; height: 36px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .m-wa-name { font-size: 0.9rem; font-weight: 600; }
+        .m-wa-status { font-size: 0.7rem; color: rgba(255,255,255,0.6); }
+
+        .m-wa-chat {
+            background: #0B141A;
+            padding: 16px;
+            min-height: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .m-wa-msg {
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .m-wa-msg.received {
+            background: #1F2C34;
+            align-self: flex-start;
+            border-top-left-radius: 0;
+        }
+
+        .m-wa-msg.sent {
+            background: #005C4B;
+            align-self: flex-end;
+            border-top-right-radius: 0;
+        }
+
+        .m-wa-msg .time {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.4);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .m-wa-options {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .m-wa-option {
+            padding: 8px 12px;
+            background: rgba(201,168,76,0.15);
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 8px;
+            font-size: 0.78rem;
+            color: var(--gold-light);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .m-wa-option:hover {
+            background: rgba(201,168,76,0.25);
+        }
+
+        /* ── Booking Mockup ── */
+        .m-booking {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 600px;
+        }
+
+        .m-booking-left {
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .m-booking-summary {
+            background: rgba(201,168,76,0.05);
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .m-booking-summary h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 16px;
+            color: var(--gold-light);
+        }
+
+        .m-booking-detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 0.85rem;
+        }
+
+        .m-booking-detail:last-child { border: none; }
+        .m-booking-detail .label { color: var(--gray); }
+        .m-booking-detail .value { font-weight: 500; }
+
+        .m-booking-price {
+            background: var(--black-card);
+            border: 1px solid rgba(201,168,76,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .m-booking-price .range {
+            font-family: 'Syne', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .m-booking-price .includes {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 8px;
+        }
+
+        .m-booking-right {
+            background: rgba(255,255,255,0.02);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .m-calendar {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .m-cal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .m-cal-header h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+        }
+
+        .m-cal-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .m-cal-nav button {
+            width: 32px; height: 32px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .m-cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            text-align: center;
+        }
+
+        .m-cal-day-label {
+            font-size: 0.65rem;
+            color: var(--gray);
+            padding: 8px 0;
+            text-transform: uppercase;
+        }
+
+        .m-cal-day {
+            padding: 10px 0;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .m-cal-day:hover { background: rgba(201,168,76,0.1); }
+        .m-cal-day.empty { visibility: hidden; }
+        .m-cal-day.disabled { color: var(--gray); opacity: 0.3; cursor: default; }
+        .m-cal-day.disabled:hover { background: transparent; }
+        .m-cal-day.selected {
+            background: var(--gold);
+            color: var(--black);
+            font-weight: 600;
+        }
+        .m-cal-day.today {
+            border: 1px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .m-time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .m-time-slot {
+            padding: 10px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .m-time-slot:hover { border-color: var(--gold); color: var(--gold); }
+        .m-time-slot.selected {
+            background: rgba(201,168,76,0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .m-time-slot.disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  FEATURES SECTION                           */
+        /* ═══════════════════════════════════════════ */
+        .features { background: var(--black-light); }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(201,168,76,0.03), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .feature-card:hover::after { opacity: 1; }
+        .feature-card:hover {
+            border-color: rgba(201,168,76,0.2);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 56px; height: 56px;
+            background: linear-gradient(135deg, rgba(201,168,76,0.15), rgba(201,168,76,0.05));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-tag {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-tag.auto { background: rgba(139,92,246,0.15); color: var(--purple); }
+        .feature-tag.ai { background: rgba(59,130,246,0.15); color: var(--blue); }
+        .feature-tag.crm { background: rgba(201,168,76,0.15); color: var(--gold); }
+        .feature-tag.ux { background: rgba(0,210,106,0.15); color: var(--green); }
+
+        /* ═══════════════════════════════════════════ */
+        /*  AUTOMATION SECTION                         */
+        /* ═══════════════════════════════════════════ */
+        .automation { background: var(--black); }
+
+        .auto-timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .auto-timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--gold), rgba(201,168,76,0.1));
+        }
+
+        .auto-step {
+            display: flex;
+            gap: 32px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .auto-dot {
+            width: 50px; height: 50px;
+            min-width: 50px;
+            background: var(--black-card);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            z-index: 1;
+        }
+
+        .auto-content {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 24px;
+            flex: 1;
+        }
+
+        .auto-content h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .auto-content p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .auto-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(139,92,246,0.1);
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: var(--purple);
+            margin-top: 10px;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  ROI SECTION                                */
+        /* ═══════════════════════════════════════════ */
+        .roi { background: var(--black-light); }
+
+        .roi-comparison {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 40px;
+            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .roi-card {
+            background: var(--black-card);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .roi-card.before { border: 1px solid rgba(255,59,59,0.2); }
+        .roi-card.after { border: 1px solid rgba(0,210,106,0.2); }
+
+        .roi-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+
+        .roi-card.before h3 { color: var(--red); }
+        .roi-card.after h3 { color: var(--green); }
+
+        .roi-item {
+            padding: 14px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .roi-item:last-child { border: none; }
+
+        .roi-item .label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 4px;
+        }
+
+        .roi-item .value {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .roi-arrow {
+            font-size: 2.5rem;
+            color: var(--gold);
+            text-align: center;
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  INVESTMENT SECTION                         */
+        /* ═══════════════════════════════════════════ */
+        .investment {
+            background: var(--black);
+            text-align: center;
+        }
+
+        .invest-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .invest-card {
+            background: var(--black-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 44px 36px;
+            text-align: left;
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .invest-card.featured {
+            border-color: var(--gold);
+            box-shadow: 0 0 60px rgba(201,168,76,0.1);
+        }
+
+        .invest-card.featured::before {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 20px;
+            background: var(--gold);
+            color: var(--black);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .invest-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .invest-card .desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 24px;
+        }
+
+        .invest-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .invest-price span {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+
+        .invest-period {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .invest-features { list-style: none; }
+        .invest-features li {
+            padding: 8px 0;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .invest-features .check { color: var(--gold); }
+        .invest-features .x { color: var(--gray); opacity: 0.3; }
+
+        .invest-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            margin-top: 28px;
+            border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .invest-btn.primary {
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+        }
+
+        .invest-btn.primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .invest-btn.secondary {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .invest-btn.secondary:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  CTA SECTION                                */
+        /* ═══════════════════════════════════════════ */
+        .cta-section {
+            padding: 120px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201,168,76,0.08), transparent 60%);
+        }
+
+        .cta-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section p {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 48px;
+            background: var(--gold);
+            color: var(--black);
+            border: none;
+            border-radius: 14px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(201,168,76,0.3);
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  FOOTER                                     */
+        /* ═══════════════════════════════════════════ */
+        footer {
+            padding: 40px 60px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer .brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        footer .copy {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  ANIMATIONS                                 */
+        /* ═══════════════════════════════════════════ */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes scrollPulse {
+            0% { opacity: 1; height: 60px; }
+            50% { opacity: 0.3; height: 40px; }
+            100% { opacity: 1; height: 60px; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  RESPONSIVE                                 */
+        /* ═══════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+            section { padding: 80px 30px; }
+            nav { padding: 16px 30px; }
+            .m-landing { grid-template-columns: 1fr; }
+            .m-landing-right { padding: 30px; }
+            .m-booking { grid-template-columns: 1fr; }
+            .m-dash-sidebar { display: none; }
+            .m-dash-content { margin-left: 0; }
+            .m-dash-stats { grid-template-columns: repeat(2, 1fr); }
+            .roi-comparison { grid-template-columns: 1fr; }
+            .roi-arrow { transform: rotate(90deg); }
+            .hero-stats { gap: 30px; }
+            .features-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+            .cta-section { padding: 80px 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            nav { padding: 14px 20px; }
+            section { padding: 60px 20px; }
+            .hero { padding: 100px 20px 60px; }
+            .hero h1 { letter-spacing: -1px; font-size: 2.5rem; }
+            .hero-sub { font-size: 1rem; padding: 0 10px; }
+            .hero-stats { flex-direction: column; gap: 20px; }
+            .section-title { font-size: 1.8rem; }
+            .section-desc { font-size: 0.95rem; }
+            .flow-arrow { display: none; }
+            .solution-flow { flex-direction: column; align-items: center; }
+            .flow-step { max-width: 100%; min-width: auto; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .feature-card { padding: 28px; }
+            .m-landing-left { padding: 30px 20px; }
+            .m-landing-left h2 { font-size: 1.6rem; }
+            .m-landing-features { flex-direction: column; gap: 8px; }
+            .m-form { padding: 24px; }
+            .m-booking-left { padding: 30px 20px; }
+            .m-booking-right { padding: 30px 20px; }
+            .m-booking-price .range { font-size: 1.5rem; }
+            .m-time-slots { grid-template-columns: repeat(2, 1fr); }
+            .m-dash-content { padding: 20px; }
+            .m-dash-stats { grid-template-columns: 1fr; }
+            .m-dash-grid { grid-template-columns: 1fr; }
+            .m-dash-header { flex-direction: column; gap: 8px; }
+            .m-dash-header h2 { font-size: 1.2rem; }
+            .m-whatsapp { padding: 20px; }
+            .m-phone { width: 100%; max-width: 340px; }
+            .auto-step { gap: 16px; }
+            .auto-dot { width: 40px; height: 40px; min-width: 40px; font-size: 1rem; }
+            .auto-timeline::before { left: 19px; }
+            .auto-content { padding: 16px; }
+            .auto-content h4 { font-size: 0.9rem; }
+            .roi-card { padding: 28px; }
+            .roi-arrow { transform: rotate(90deg); font-size: 1.5rem; }
+            .roi-comparison { gap: 20px; }
+            .invest-card { padding: 28px 20px; }
+            .invest-price { font-size: 2rem; }
+            .cta-section { padding: 60px 20px; }
+            .cta-section h2 { font-size: 1.8rem; }
+            .cta-btn { padding: 16px 32px; font-size: 1rem; }
+            footer { padding: 30px 20px; }
+            .mockup-tabs { gap: 8px; }
+            .mockup-tab { padding: 8px 16px; font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-badge { font-size: 0.65rem; padding: 6px 14px; }
+            .stat-number { font-size: 2rem; }
+            .section-title { font-size: 1.5rem; }
+            .m-landing-left h2 { font-size: 1.4rem; }
+            .m-form h3 { font-size: 1rem; }
+            .m-cal-grid { gap: 2px; }
+            .m-cal-day { padding: 8px 0; font-size: 0.7rem; }
+            .m-wa-chat { min-height: 350px; padding: 12px; }
+            .m-wa-msg { font-size: 0.75rem; }
+            .invest-price { font-size: 1.8rem; }
+            .problem-card { padding: 24px; }
+            .flow-step { padding: 24px 20px; }
+        }
+
+        /* ═══════════════════════════════════════════ */
+        /*  COST BOXES (Service Costs)                 */
+        /* ═══════════════════════════════════════════ */
+        .cost-box {
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .cost-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .cost-desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 4px;
+        }
+
+        .cost-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            display: inline-block;
+        }
+
+        .cost-price-block {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .cost-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .cost-period {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        .cost-estimate-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 14px;
+        }
+
+        .cost-estimate-label {
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .cost-estimate-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            text-align: center;
+        }
+
+        .cost-estimate-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .cost-estimate-unit {
+            font-size: 0.7rem;
+            color: var(--gray);
+        }
+
+        .cost-estimate-detail {
+            font-size: 0.68rem;
+            color: var(--gray);
+            margin-top: 2px;
+        }
+
+        .cost-estimate-note {
+            font-size: 0.7rem;
+            color: var(--gray);
+            margin-top: 10px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .cost-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .cost-price-block {
+                text-align: left;
+            }
+            .cost-title { font-size: 0.85rem; }
+            .cost-badge { display: block; margin-left: 0; margin-top: 6px; width: fit-content; }
+            .cost-price { font-size: 1.1rem; }
+            .cost-box { padding: 16px; }
+            .cost-estimate-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px;
+            }
+            .cost-estimate-value { font-size: 1.3rem; }
+            .cost-estimate-box { padding: 12px; }
+            .cost-estimate-note { font-size: 0.65rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- ═══ NAVIGATION ═══ -->
+    <nav>
+        <div class="logo">GOLDEN <span>RABBIT</span></div>
+        <ul class="nav-links">
+            <li><a href="#problema">Problema</a></li>
+            <li><a href="#solucion">Solución</a></li>
+            <li><a href="#plataforma">Plataforma</a></li>
+            <li><a href="#funciones">Funciones</a></li>
+            <li><a href="#inversion">Inversión</a></li>
+        </ul>
+    </nav>
+
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Propuesta Ejecutiva 2026
+        </div>
+        <h1>
+            Tu Arte<br>
+            Merece un<br>
+            <span class="gold">Sistema</span> <span class="outline">Inteligente</span>
+        </h1>
+        <p class="hero-sub">
+            Automatiza tu estudio. Convierte más prospectos. Enfócate en lo que mejor haces: tatuar.
+        </p>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-number" id="counter1">0%</div>
+                <div class="stat-label">Menos carga manual</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="counter2">0x</div>
+                <div class="stat-label">Más rápido en responder</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="counter3">0%</div>
+                <div class="stat-label">Más conversiones</div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ═══ PROBLEM ═══ -->
+    <section class="problem" id="problema">
+        <div class="reveal">
+            <div class="section-label">El Problema</div>
+            <div class="section-title">Cada mensaje sin responder<br>es dinero que se va</div>
+            <div class="section-desc">
+                Tu proceso actual funciona, pero depende de ti. Y tú deberías estar tatuando, no respondiendo WhatsApps.
+            </div>
+        </div>
+        <div class="problem-grid">
+            <div class="problem-card reveal">
+                <div class="problem-icon">⏰</div>
+                <h3>Respuesta lenta</h3>
+                <p>Los prospectos llegan de anuncios esperando respuesta inmediata. Si tardas 2 horas, ya cotizaron con otro estudio.</p>
+                <span class="problem-metric">78% se pierden en &lt;1 hora</span>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">🔄</div>
+                <h3>Proceso manual repetitivo</h3>
+                <p>Nombre, zona, tamaño, color, referencia... Las mismas 6 preguntas, cientos de veces al mes. Tu tiempo vale más.</p>
+                <span class="problem-metric">~15 min por prospecto</span>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">📋</div>
+                <h3>Sin base de datos</h3>
+                <p>Clientes en WhatsApp, citas en la cabeza, seguimientos cuando te acuerdas. No hay historial ni control real.</p>
+                <span class="problem-metric">0 datos organizados</span>
+            </div>
+            <div class="problem-card reveal">
+                <div class="problem-icon">💸</div>
+                <h3>Leads que se enfrían</h3>
+                <p>Inviertes $4,000/mes en pauta. Los leads llegan, pero sin seguimiento automático, muchos nunca cierran.</p>
+                <span class="problem-metric">$4,000/mes en riesgo</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ SOLUTION ═══ -->
+    <section class="solution" id="solucion">
+        <div class="reveal">
+            <div class="section-label">La Solución</div>
+            <div class="section-title">Un sistema que trabaja<br>mientras tú tatúas</div>
+            <div class="section-desc">
+                Dos opciones para tu cliente. Un solo resultado: cita agendada, anticipo cobrado, recordatorios automáticos.
+            </div>
+        </div>
+        <div class="solution-flow reveal">
+            <div class="flow-step">
+                <span class="flow-step-number">1</span>
+                <div class="flow-step-icon">📱</div>
+                <h3>Lead llega</h3>
+                <p>Desde anuncio, redes o recomendación directo a WhatsApp</p>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <span class="flow-step-number">2</span>
+                <div class="flow-step-icon">🤖</div>
+                <h3>Bot recibe</h3>
+                <p>Mensaje automático con 2 opciones: resolver aquí o usar la web</p>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <span class="flow-step-number">3</span>
+                <div class="flow-step-icon">💬</div>
+                <h3>Cliente elige</h3>
+                <p>WhatsApp conversacional o formulario web con cotización instantánea</p>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-step">
+                <span class="flow-step-number">4</span>
+                <div class="flow-step-icon">✅</div>
+                <h3>Cita cerrada</h3>
+                <p>Anticipo pagado, cita agendada, recordatorios activados. Sin tocar nada.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ MOCKUPS ═══ -->
+    <section class="mockups" id="plataforma">
+        <div class="reveal">
+            <div class="section-label">La Plataforma</div>
+            <div class="section-title">Así se ve tu nuevo<br>sistema en acción</div>
+            <div class="section-desc">
+                Interfaz diseñada específicamente para Golden Rabbit. Oscura, elegante, funcional.
+            </div>
+        </div>
+        <div class="mockup-tabs reveal">
+            <button class="mockup-tab active" onclick="showMockup('landing')">Landing / Cotizador</button>
+            <button class="mockup-tab" onclick="showMockup('whatsapp')">WhatsApp Bot</button>
+            <button class="mockup-tab" onclick="showMockup('booking')">Booking / Agenda</button>
+            <button class="mockup-tab" onclick="showMockup('dashboard')">Dashboard</button>
+        </div>
+        <div class="mockup-container reveal">
+            <div class="mockup-browser-bar">
+                <div class="browser-dot red"></div>
+                <div class="browser-dot yellow"></div>
+                <div class="browser-dot green"></div>
+                <div class="browser-url" id="mockupUrl">goldenrabbit.ink</div>
+            </div>
+
+            <!-- LANDING MOCKUP -->
+            <div class="mockup-screen active" id="mockup-landing">
+                <div class="m-landing">
+                    <div class="m-landing-left">
+                        <div class="m-landing-badge">🐰 Golden Rabbit Tattoo Studio</div>
+                        <h2>Tu próximo tatuaje<br>comienza <span class="gold">aquí</span></h2>
+                        <p>Cotiza en segundos, agenda tu cita y paga tu anticipo. Todo sin esperar respuesta.</p>
+                        <div class="m-landing-features">
+                            <div class="m-landing-feat"><span class="check">✓</span> Anestesia incluida</div>
+                            <div class="m-landing-feat"><span class="check">✓</span> Kit de recuperación</div>
+                            <div class="m-landing-feat"><span class="check">✓</span> Diseño personalizado</div>
+                        </div>
+                        <button class="m-cta-btn">Cotizar mi tatuaje →</button>
+                    </div>
+                    <div class="m-landing-right">
+                        <div class="m-form">
+                            <h3>Cotiza tu tatuaje</h3>
+                            <div class="sub">Completa el formulario y obtén tu precio estimado al instante</div>
+                            <input class="m-input" placeholder="Tu nombre" />
+                            <input class="m-input" placeholder="Describe tu idea de tatuaje..." />
+                            <div class="m-row">
+                                <select class="m-select" style="flex:1">
+                                    <option>Zona del cuerpo</option>
+                                </select>
+                                <select class="m-select" style="flex:1">
+                                    <option>Tamaño</option>
+                                </select>
+                            </div>
+                            <div class="m-row">
+                                <select class="m-select" style="flex:1">
+                                    <option>Color / B&N</option>
+                                </select>
+                            </div>
+                            <div class="m-upload">
+                                <div class="m-upload-icon">📸</div>
+                                <p>Sube tu imagen de referencia (opcional)</p>
+                            </div>
+                            <button class="m-submit">Obtener cotización →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WHATSAPP MOCKUP -->
+            <div class="mockup-screen" id="mockup-whatsapp">
+                <div class="m-whatsapp">
+                    <div class="m-phone">
+                        <div class="m-phone-notch"></div>
+                        <div class="m-wa-header">
+                            <div class="m-wa-avatar">GR</div>
+                            <div>
+                                <div class="m-wa-name">Golden Rabbit Tattoo</div>
+                                <div class="m-wa-status">en línea</div>
+                            </div>
+                        </div>
+                        <div class="m-wa-chat">
+                            <div class="m-wa-msg received">
+                                ¡Hola! 🐰 Bienvenido a <strong>Golden Rabbit Tattoo</strong>
+                                <br><br>
+                                ¿Cómo te gustaría agendar tu cita?
+                                <div class="m-wa-options">
+                                    <div class="m-wa-option">💬 Cotizar aquí en WhatsApp</div>
+                                    <div class="m-wa-option">🌐 Ir al cotizador web</div>
+                                </div>
+                                <div class="time">10:30 AM</div>
+                            </div>
+                            <div class="m-wa-msg sent">
+                                Cotizar aquí en WhatsApp
+                                <div class="time">10:30 AM ✓✓</div>
+                            </div>
+                            <div class="m-wa-msg received">
+                                ¡Perfecto! Vamos a armar tu cotización 🎨
+                                <br><br>
+                                ¿Cuál es tu nombre?
+                                <div class="time">10:30 AM</div>
+                            </div>
+                            <div class="m-wa-msg sent">
+                                Soy Carlos
+                                <div class="time">10:31 AM ✓✓</div>
+                            </div>
+                            <div class="m-wa-msg received">
+                                ¡Hola Carlos! 👋 Cuéntame, ¿qué tatuaje tienes en mente?
+                                <br><br>
+                                Describe tu idea y si tienes imagen de referencia, mándala 📸
+                                <div class="time">10:31 AM</div>
+                            </div>
+                            <div class="m-wa-msg sent">
+                                Quiero un lobo geométrico en el antebrazo, tamaño mediano, en negro
+                                <div class="time">10:32 AM ✓✓</div>
+                            </div>
+                            <div class="m-wa-msg received">
+                                🐺 ¡Excelente elección! Basado en tu idea:
+                                <br><br>
+                                📍 Antebrazo<br>
+                                📐 Mediano<br>
+                                🎨 Blanco y negro<br>
+                                <br>
+                                💰 <strong>Rango estimado: $2,000 - $3,000 MXN</strong>
+                                <br><br>
+                                Incluye anestesia + kit de recuperación ✨
+                                <br><br>
+                                ¿Te gustaría agendar tu cita?
+                                <div class="m-wa-options">
+                                    <div class="m-wa-option">✅ Sí, agendar cita</div>
+                                    <div class="m-wa-option">❓ Tengo más preguntas</div>
+                                </div>
+                                <div class="time">10:32 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOOKING MOCKUP -->
+            <div class="mockup-screen" id="mockup-booking">
+                <div class="m-booking">
+                    <div class="m-booking-left">
+                        <div class="section-label" style="margin-bottom:20px;">Resumen de cotización</div>
+                        <div class="m-booking-summary">
+                            <h3>🐺 Lobo Geométrico</h3>
+                            <div class="m-booking-detail">
+                                <span class="label">Cliente</span>
+                                <span class="value">Carlos Ramírez</span>
+                            </div>
+                            <div class="m-booking-detail">
+                                <span class="label">Zona</span>
+                                <span class="value">Antebrazo</span>
+                            </div>
+                            <div class="m-booking-detail">
+                                <span class="label">Tamaño</span>
+                                <span class="value">Mediano (~15cm)</span>
+                            </div>
+                            <div class="m-booking-detail">
+                                <span class="label">Estilo</span>
+                                <span class="value">Blanco y Negro</span>
+                            </div>
+                        </div>
+                        <div class="m-booking-price">
+                            <div class="range">$2,000 - $3,000</div>
+                            <div class="includes">
+                                ✓ Anestesia &nbsp; ✓ Kit recuperación &nbsp; ✓ Diseño personalizado
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-booking-right">
+                        <div class="section-label" style="margin-bottom:20px;">Selecciona fecha y hora</div>
+                        <div class="m-calendar">
+                            <div class="m-cal-header">
+                                <h4>Marzo 2026</h4>
+                                <div class="m-cal-nav">
+                                    <button>◄</button>
+                                    <button>►</button>
+                                </div>
+                            </div>
+                            <div class="m-cal-grid">
+                                <div class="m-cal-day-label">Lun</div>
+                                <div class="m-cal-day-label">Mar</div>
+                                <div class="m-cal-day-label">Mié</div>
+                                <div class="m-cal-day-label">Jue</div>
+                                <div class="m-cal-day-label">Vie</div>
+                                <div class="m-cal-day-label">Sáb</div>
+                                <div class="m-cal-day-label">Dom</div>
+                                <div class="m-cal-day empty"></div>
+                                <div class="m-cal-day empty"></div>
+                                <div class="m-cal-day empty"></div>
+                                <div class="m-cal-day empty"></div>
+                                <div class="m-cal-day empty"></div>
+                                <div class="m-cal-day empty"></div>
+                                <div class="m-cal-day disabled">1</div>
+                                <div class="m-cal-day disabled">2</div>
+                                <div class="m-cal-day disabled">3</div>
+                                <div class="m-cal-day disabled">4</div>
+                                <div class="m-cal-day today">5</div>
+                                <div class="m-cal-day">6</div>
+                                <div class="m-cal-day">7</div>
+                                <div class="m-cal-day">8</div>
+                                <div class="m-cal-day">9</div>
+                                <div class="m-cal-day">10</div>
+                                <div class="m-cal-day">11</div>
+                                <div class="m-cal-day">12</div>
+                                <div class="m-cal-day">13</div>
+                                <div class="m-cal-day selected">14</div>
+                                <div class="m-cal-day">15</div>
+                                <div class="m-cal-day">16</div>
+                                <div class="m-cal-day">17</div>
+                                <div class="m-cal-day">18</div>
+                                <div class="m-cal-day">19</div>
+                                <div class="m-cal-day">20</div>
+                                <div class="m-cal-day">21</div>
+                            </div>
+                        </div>
+                        <div class="m-time-slots">
+                            <div class="m-time-slot">10:00</div>
+                            <div class="m-time-slot selected">14:00</div>
+                            <div class="m-time-slot">16:00</div>
+                            <div class="m-time-slot disabled">11:00</div>
+                            <div class="m-time-slot">17:00</div>
+                            <div class="m-time-slot">18:00</div>
+                        </div>
+                        <button class="m-submit" style="margin-top:20px;">Confirmar y pagar anticipo ($500 MXN) →</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD MOCKUP -->
+            <div class="mockup-screen" id="mockup-dashboard">
+                <div class="m-dashboard" style="position:relative;min-height:600px;">
+                    <div class="m-dash-sidebar">
+                        <div class="m-dash-logo">🐰 Golden Rabbit</div>
+                        <ul class="m-dash-menu">
+                            <li class="active">📊 Dashboard</li>
+                            <li>📅 Citas</li>
+                            <li>👥 Clientes</li>
+                            <li>📈 Pipeline</li>
+                            <li>💬 Mensajes</li>
+                            <li>⚙️ Configuración</li>
+                        </ul>
+                    </div>
+                    <div class="m-dash-content">
+                        <div class="m-dash-header">
+                            <h2>Buenos días 👋</h2>
+                            <span class="date">Jueves 5 de Marzo, 2026</span>
+                        </div>
+                        <div class="m-dash-stats">
+                            <div class="m-stat-card">
+                                <div class="label">Citas hoy</div>
+                                <div class="value" style="color:var(--gold)">3</div>
+                                <div class="change up">↑ 1 más que ayer</div>
+                            </div>
+                            <div class="m-stat-card">
+                                <div class="label">Nuevos leads</div>
+                                <div class="value" style="color:var(--blue)">7</div>
+                                <div class="change up">↑ 40% vs semana pasada</div>
+                            </div>
+                            <div class="m-stat-card">
+                                <div class="label">Ingresos mes</div>
+                                <div class="value" style="color:var(--green)">$45K</div>
+                                <div class="change up">↑ 22% vs febrero</div>
+                            </div>
+                            <div class="m-stat-card">
+                                <div class="label">Tasa conversión</div>
+                                <div class="value" style="color:var(--purple)">34%</div>
+                                <div class="change up">↑ 12% mejora</div>
+                            </div>
+                        </div>
+                        <div class="m-dash-grid">
+                            <div class="m-dash-card">
+                                <h3>Citas de hoy <span class="see-all">Ver todas →</span></h3>
+                                <div class="m-appointment">
+                                    <span class="m-appt-time">10:00</span>
+                                    <div class="m-appt-info">
+                                        <div class="name">María González</div>
+                                        <div class="desc">Mariposa en brazo · Color · $2,500</div>
+                                    </div>
+                                    <span class="m-appt-status confirmed">Confirmada</span>
+                                </div>
+                                <div class="m-appointment">
+                                    <span class="m-appt-time">14:00</span>
+                                    <div class="m-appt-info">
+                                        <div class="name">Carlos Ramírez</div>
+                                        <div class="desc">Lobo geométrico antebrazo · B&N · $3,000</div>
+                                    </div>
+                                    <span class="m-appt-status confirmed">Confirmada</span>
+                                </div>
+                                <div class="m-appointment">
+                                    <span class="m-appt-time">17:00</span>
+                                    <div class="m-appt-info">
+                                        <div class="name">Ana López</div>
+                                        <div class="desc">Lettering muñeca · B&N · $1,200</div>
+                                    </div>
+                                    <span class="m-appt-status pending">Pendiente pago</span>
+                                </div>
+                            </div>
+                            <div class="m-dash-card">
+                                <h3>Leads recientes <span class="see-all">Ver todos →</span></h3>
+                                <div class="m-lead-item">
+                                    <div class="m-lead-avatar">JP</div>
+                                    <div class="m-lead-info">
+                                        <div class="name">Juan Pérez</div>
+                                        <div class="channel">📱 WhatsApp · Cotizando</div>
+                                    </div>
+                                    <span class="m-lead-time">hace 2h</span>
+                                </div>
+                                <div class="m-lead-item">
+                                    <div class="m-lead-avatar">SM</div>
+                                    <div class="m-lead-info">
+                                        <div class="name">Sofía Martínez</div>
+                                        <div class="channel">🌐 Landing · Formulario</div>
+                                    </div>
+                                    <span class="m-lead-time">hace 3h</span>
+                                </div>
+                                <div class="m-lead-item">
+                                    <div class="m-lead-avatar">RG</div>
+                                    <div class="m-lead-info">
+                                        <div class="name">Roberto García</div>
+                                        <div class="channel">📱 WhatsApp · Nuevo</div>
+                                    </div>
+                                    <span class="m-lead-time">hace 5h</span>
+                                </div>
+                                <div class="m-lead-item">
+                                    <div class="m-lead-avatar">LC</div>
+                                    <div class="m-lead-info">
+                                        <div class="name">Laura Castro</div>
+                                        <div class="channel">📷 Instagram · Nuevo</div>
+                                    </div>
+                                    <span class="m-lead-time">hace 6h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ FEATURES ═══ -->
+    <section class="features" id="funciones">
+        <div class="reveal">
+            <div class="section-label">Funcionalidades</div>
+            <div class="section-title">Todo lo que incluye<br>tu sistema</div>
+            <div class="section-desc">
+                Cada función diseñada para resolver un problema real de tu estudio.
+            </div>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <div class="feature-icon">🤖</div>
+                <h3>Chatbot WhatsApp Inteligente</h3>
+                <p>Responde al instante, recoge datos del tatuaje, da cotización estimada y agenda citas. 24/7, sin intervención.</p>
+                <span class="feature-tag ai">INTELIGENCIA ARTIFICIAL</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">💰</div>
+                <h3>Cotizador Automático</h3>
+                <p>Basado en zona, tamaño y color, calcula un rango de precio instantáneo. Tanto en WhatsApp como en la web.</p>
+                <span class="feature-tag auto">AUTOMATIZACIÓN</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📅</div>
+                <h3>Agenda Inteligente</h3>
+                <p>El cliente ve tus horarios disponibles y reserva directo. Incluye cobro de anticipo de $500 MXN integrado.</p>
+                <span class="feature-tag ux">EXPERIENCIA CLIENTE</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📊</div>
+                <h3>Dashboard en Tiempo Real</h3>
+                <p>Citas del día, leads nuevos, ingresos del mes, tasa de conversión. Todo en un vistazo, desde tu celular.</p>
+                <span class="feature-tag crm">CRM</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔔</div>
+                <h3>Recordatorios Automáticos</h3>
+                <p>24 horas antes de la cita: recordatorio con ubicación y hora. Reduce ausencias sin que muevas un dedo.</p>
+                <span class="feature-tag auto">AUTOMATIZACIÓN</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">💊</div>
+                <h3>Seguimiento Post-Tatuaje</h3>
+                <p>Mensajes automáticos preguntando por la cicatrización. Genera confianza, reseñas y clientes recurrentes.</p>
+                <span class="feature-tag auto">AUTOMATIZACIÓN</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">📈</div>
+                <h3>Pipeline de Ventas</h3>
+                <p>Visualiza cada prospecto: nuevo → cotizado → agendado → completado. Identifica dónde se pierden los leads.</p>
+                <span class="feature-tag crm">CRM</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">👥</div>
+                <h3>Base de Datos de Clientes</h3>
+                <p>Historial completo: tatuajes anteriores, preferencias, fechas. Para seguimiento personalizado y remarketing.</p>
+                <span class="feature-tag crm">CRM</span>
+            </div>
+            <div class="feature-card reveal">
+                <div class="feature-icon">🔄</div>
+                <h3>Re-engagement Automático</h3>
+                <p>Leads que no cerraron reciben seguimiento. Clientes antiguos reciben ofertas. Sin esfuerzo manual.</p>
+                <span class="feature-tag ai">INTELIGENCIA ARTIFICIAL</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ AUTOMATION TIMELINE ═══ -->
+    <section class="automation">
+        <div class="reveal">
+            <div class="section-label">Automatización completa</div>
+            <div class="section-title">El viaje del cliente<br>100% automatizado</div>
+            <div class="section-desc">
+                Desde el primer mensaje hasta el seguimiento post-tatuaje. Todo ocurre sin que intervengas.
+            </div>
+        </div>
+        <div class="auto-timeline reveal">
+            <div class="auto-step">
+                <div class="auto-dot">📱</div>
+                <div class="auto-content">
+                    <h4>El prospecto envía mensaje</h4>
+                    <p>Llega desde anuncio de Facebook/Instagram a WhatsApp. El bot responde en &lt;3 segundos.</p>
+                    <span class="auto-tag">Instantáneo</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">💬</div>
+                <div class="auto-content">
+                    <h4>Elige su canal preferido</h4>
+                    <p>WhatsApp conversacional o formulario web. El cliente decide cómo quiere interactuar.</p>
+                    <span class="auto-tag">2 opciones</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">📝</div>
+                <div class="auto-content">
+                    <h4>Recopilación de datos + cotización</h4>
+                    <p>Nombre, idea, zona, tamaño, color, referencia. Cotización automática basada en los datos.</p>
+                    <span class="auto-tag">~2 minutos</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">📅</div>
+                <div class="auto-content">
+                    <h4>Agenda cita + cobra anticipo</h4>
+                    <p>Ve horarios disponibles, selecciona fecha/hora, paga $500 MXN. Cita confirmada automáticamente.</p>
+                    <span class="auto-tag">Pago integrado</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">🔔</div>
+                <div class="auto-content">
+                    <h4>Recordatorio 24h antes</h4>
+                    <p>WhatsApp automático con fecha, hora y ubicación del estudio. Reduce no-shows.</p>
+                    <span class="auto-tag">Automático</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">🎨</div>
+                <div class="auto-content">
+                    <h4>Sesión de tatuaje</h4>
+                    <p>El único paso donde TÚ intervienes. Haces lo que mejor sabes: tatuar.</p>
+                    <span class="auto-tag">Tu arte</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">💊</div>
+                <div class="auto-content">
+                    <h4>Seguimiento post-tatuaje</h4>
+                    <p>Mensajes automáticos a los 3, 7 y 14 días preguntando por la cicatrización. Genera confianza y reseñas.</p>
+                    <span class="auto-tag">3 seguimientos</span>
+                </div>
+            </div>
+            <div class="auto-step">
+                <div class="auto-dot">🔄</div>
+                <div class="auto-content">
+                    <h4>Remarketing inteligente</h4>
+                    <p>30 días después: "¿Listo para tu siguiente tatuaje?" Convierte clientes en clientes recurrentes.</p>
+                    <span class="auto-tag">Ciclo infinito</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ ROI ═══ -->
+    <section class="roi">
+        <div class="reveal">
+            <div class="section-label">Retorno de inversión</div>
+            <div class="section-title">Los números hablan</div>
+        </div>
+        <div class="roi-comparison reveal">
+            <div class="roi-card before">
+                <h3>🔴 Hoy</h3>
+                <div class="roi-item">
+                    <div class="label">Tiempo de respuesta</div>
+                    <div class="value">1-4 horas</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Leads atendidos/mes</div>
+                    <div class="value">~60%</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Tasa de conversión</div>
+                    <div class="value">~15-20%</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Seguimiento post-servicio</div>
+                    <div class="value">Manual / a veces</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Horas en admin/semana</div>
+                    <div class="value">15-20 hrs</div>
+                </div>
+            </div>
+            <div class="roi-arrow">→</div>
+            <div class="roi-card after">
+                <h3>🟢 Con el sistema</h3>
+                <div class="roi-item">
+                    <div class="label">Tiempo de respuesta</div>
+                    <div class="value" style="color:var(--green)">&lt;3 segundos</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Leads atendidos/mes</div>
+                    <div class="value" style="color:var(--green)">100%</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Tasa de conversión</div>
+                    <div class="value" style="color:var(--green)">30-40%</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Seguimiento post-servicio</div>
+                    <div class="value" style="color:var(--green)">100% automático</div>
+                </div>
+                <div class="roi-item">
+                    <div class="label">Horas en admin/semana</div>
+                    <div class="value" style="color:var(--green)">2-3 hrs</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ INVESTMENT ═══ -->
+    <section class="investment" id="inversion">
+        <div class="reveal">
+            <div class="section-label">Inversión</div>
+            <div class="section-title">Tu inversión</div>
+            <div class="section-desc" style="margin:0 auto 60px;">
+                Incluye diseño, desarrollo, configuración de automatizaciones, capacitación y soporte continuo.
+            </div>
+        </div>
+        <div style="max-width:680px;margin:0 auto;">
+            <!-- IMPLEMENTACIÓN -->
+            <div class="invest-card featured reveal" style="margin-top:20px;">
+                <h3>Implementación</h3>
+                <div class="desc">Sistema completo: Landing + WhatsApp Bot + CRM + Automatizaciones</div>
+                <div class="invest-price">$18,000 <span>MXN</span></div>
+                <div class="invest-period">Pago único</div>
+                <ul class="invest-features">
+                    <li><span class="check">✓</span> Landing page con cotizador inteligente</li>
+                    <li><span class="check">✓</span> Sistema de booking + cobro de anticipo</li>
+                    <li><span class="check">✓</span> Chatbot WhatsApp inteligente</li>
+                    <li><span class="check">✓</span> Recordatorios automáticos de cita</li>
+                    <li><span class="check">✓</span> Seguimiento post-tatuaje automatizado</li>
+                    <li><span class="check">✓</span> Pipeline de ventas CRM</li>
+                    <li><span class="check">✓</span> Base de datos de clientes con historial</li>
+                    <li><span class="check">✓</span> Re-engagement automático de leads fríos</li>
+                    <li><span class="check">✓</span> Dashboard en tiempo real</li>
+                    <li><span class="check">✓</span> Capacitación de uso del sistema</li>
+                </ul>
+            </div>
+
+            <!-- MENSUALIDAD -->
+            <div class="invest-card reveal" style="margin-top:20px;border:1px solid rgba(201,168,76,0.25);">
+                <h3>Mensualidad</h3>
+                <div class="desc">Mantenimiento, soporte y operación del sistema</div>
+                <div class="invest-price">$3,000 <span>MXN/mes</span></div>
+                <div class="invest-period">Cobro mensual</div>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:20px;margin-top:20px;">
+                    <div style="font-size:0.75rem;color:var(--gold);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;font-weight:600;">Incluye</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                        <div style="font-size:0.82rem;display:flex;align-items:center;gap:8px;"><span style="color:var(--gold);">&#9672;</span> Hosting y dominio</div>
+                        <div style="font-size:0.82rem;display:flex;align-items:center;gap:8px;"><span style="color:var(--gold);">&#9672;</span> Licencia CRM (Artificialica ADS)</div>
+                        <div style="font-size:0.82rem;display:flex;align-items:center;gap:8px;"><span style="color:var(--gold);">&#9672;</span> Soporte técnico</div>
+                        <div style="font-size:0.82rem;display:flex;align-items:center;gap:8px;"><span style="color:var(--gold);">&#9672;</span> Mantenimiento web</div>
+                        <div style="font-size:0.82rem;display:flex;align-items:center;gap:8px;"><span style="color:var(--gold);">&#9672;</span> Actualizaciones</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COSTOS ADICIONALES -->
+            <div class="invest-card reveal" style="margin-top:20px;border:1px solid rgba(255,255,255,0.1);">
+                <h3>Costos adicionales del servicio</h3>
+                <div class="desc">Pagados directamente por el cliente según uso</div>
+
+                <!-- WhatsApp -->
+                <div class="cost-box" style="background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.15);margin-top:20px;">
+                    <div class="cost-row">
+                        <div>
+                            <div class="cost-title">WhatsApp Mensajería</div>
+                            <div class="cost-desc">Mensajería ilimitada con tus clientes</div>
+                        </div>
+                        <div class="cost-price-block">
+                            <div class="cost-price" style="color:#25D366;">$30 USD</div>
+                            <div class="cost-period">/mes (~$600 MXN)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IA por uso -->
+                <div class="cost-box" style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);margin-top:12px;">
+                    <div class="cost-row">
+                        <div>
+                            <div class="cost-title">Conversación IA <span class="cost-badge" style="background:rgba(59,130,246,0.15);color:var(--blue);">POR USO</span></div>
+                            <div class="cost-desc">Solo pagas por los mensajes que genera la IA</div>
+                        </div>
+                        <div class="cost-price-block">
+                            <div class="cost-price" style="color:var(--blue);">~$0.02 USD</div>
+                            <div class="cost-period">/mensaje (~$0.40 MXN)</div>
+                        </div>
+                    </div>
+                    <div class="cost-estimate-box">
+                        <div class="cost-estimate-label" style="color:var(--blue);">Estimado mensual por volumen</div>
+                        <div class="cost-estimate-grid">
+                            <div>
+                                <div class="cost-estimate-value">~$200</div>
+                                <div class="cost-estimate-unit">MXN/mes</div>
+                                <div class="cost-estimate-detail">50 conversaciones</div>
+                            </div>
+                            <div>
+                                <div class="cost-estimate-value">~$400</div>
+                                <div class="cost-estimate-unit">MXN/mes</div>
+                                <div class="cost-estimate-detail">100 conversaciones</div>
+                            </div>
+                            <div>
+                                <div class="cost-estimate-value">~$800</div>
+                                <div class="cost-estimate-unit">MXN/mes</div>
+                                <div class="cost-estimate-detail">200 conversaciones</div>
+                            </div>
+                        </div>
+                        <div class="cost-estimate-note">~10 mensajes IA por conversación × $0.02 USD = ~$4 MXN por conversación</div>
+                    </div>
+                </div>
+
+                <!-- IA ilimitada -->
+                <div class="cost-box" style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);margin-top:12px;">
+                    <div class="cost-row">
+                        <div>
+                            <div class="cost-title">IA Ilimitada <span class="cost-badge" style="background:rgba(139,92,246,0.15);color:var(--purple);">SIN LÍMITE</span></div>
+                            <div class="cost-desc">Conversaciones ilimitadas con inteligencia artificial</div>
+                        </div>
+                        <div class="cost-price-block">
+                            <div class="cost-price" style="color:var(--purple);">$97 USD</div>
+                            <div class="cost-period">/mes (~$1,940 MXN)</div>
+                        </div>
+                    </div>
+                    <div style="font-size:0.75rem;color:var(--gray);margin-top:10px;padding-top:10px;border-top:1px solid rgba(139,92,246,0.1);">Conviene a partir de +480 conversaciones/mes. Recomendado cuando el volumen de leads crece.</div>
+                </div>
+            </div>
+
+            <a class="invest-btn primary reveal" style="margin-top:28px;display:block;text-align:center;" href="https://wa.me/525571106909?text=Hola%20Tonatiuh%2C%20me%20interesa%20la%20propuesta%20para%20Golden%20Rabbit" target="_blank">Contactar a Tonatiuh Hidalgo →</a>
+        </div>
+    </section>
+
+    <!-- ═══ CTA ═══ -->
+    <section class="cta-section">
+        <h2 class="reveal">¿Listo para transformar<br><span style="color:var(--gold)">Golden Rabbit</span>?</h2>
+        <p class="reveal">El sistema se paga solo con los leads que hoy se te escapan.</p>
+        <a class="cta-btn reveal" href="https://wa.me/525571106909?text=Hola%20Tonatiuh%2C%20quiero%20comenzar%20con%20el%20proyecto" target="_blank">Contactar a Tonatiuh Hidalgo →</a>
+    </section>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+        <div class="brand">Elaborado por Tonatiuh Hidalgo</div>
+        <div class="copy">Propuesta ejecutiva para Golden Rabbit — Marzo 2026 — Confidencial</div>
+    </footer>
+
+    <!-- ═══ SCRIPTS ═══ -->
+    <script>
+        // Cursor glow
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.getElementById('cursorGlow');
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        // Reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Counter animation
+        function animateCounter(id, target, suffix, duration = 2000) {
+            const el = document.getElementById(id);
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    let start = 0;
+                    const step = target / (duration / 16);
+                    const timer = setInterval(() => {
+                        start += step;
+                        if (start >= target) {
+                            start = target;
+                            clearInterval(timer);
+                        }
+                        el.textContent = Math.round(start) + suffix;
+                    }, 16);
+                    observer.disconnect();
+                }
+            }, { threshold: 0.5 });
+            observer.observe(el);
+        }
+
+        animateCounter('counter1', 80, '%');
+        animateCounter('counter2', 10, 'x');
+        animateCounter('counter3', 35, '%');
+
+        // Mockup tabs with autoplay
+        const mockupNames = ['landing', 'whatsapp', 'booking', 'dashboard'];
+        const mockupUrls = {
+            landing: 'goldenrabbit.ink',
+            whatsapp: 'wa.me/goldenrabbit',
+            booking: 'goldenrabbit.ink/booking/carlos-ramirez',
+            dashboard: 'goldenrabbit.ink/dashboard'
+        };
+        let currentMockup = 0;
+        let autoplayInterval = null;
+        let autoplayPaused = false;
+
+        function showMockupByIndex(index) {
+            const name = mockupNames[index];
+            document.querySelectorAll('.mockup-screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.mockup-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('mockup-' + name).classList.add('active');
+            document.querySelectorAll('.mockup-tab')[index].classList.add('active');
+            document.getElementById('mockupUrl').textContent = mockupUrls[name];
+            currentMockup = index;
+        }
+
+        function showMockup(name) {
+            const index = mockupNames.indexOf(name);
+            showMockupByIndex(index);
+            // Reset autoplay on manual click
+            clearInterval(autoplayInterval);
+            autoplayPaused = false;
+            startAutoplay();
+        }
+
+        function startAutoplay() {
+            autoplayInterval = setInterval(() => {
+                if (!autoplayPaused) {
+                    const next = (currentMockup + 1) % mockupNames.length;
+                    showMockupByIndex(next);
+                }
+            }, 3000);
+        }
+
+        // Start autoplay when mockup section is visible
+        const mockupObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                startAutoplay();
+            } else {
+                clearInterval(autoplayInterval);
+            }
+        }, { threshold: 0.3 });
+        const mockupSection = document.querySelector('.mockups');
+        if (mockupSection) mockupObserver.observe(mockupSection);
+
+        // Pause on hover
+        const mockupContainer = document.querySelector('.mockup-container');
+        if (mockupContainer) {
+            mockupContainer.addEventListener('mouseenter', () => { autoplayPaused = true; });
+            mockupContainer.addEventListener('mouseleave', () => { autoplayPaused = false; });
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
